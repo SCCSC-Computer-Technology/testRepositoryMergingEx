@@ -1,0 +1,191 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="CPT_275_Capstone.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="height=device-height, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+    <style>
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            margin-right: 8px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link:focus {
+            color: #f8f9fa;
+        }
+
+        .nav-link:before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #f8f9fa;
+            transform: scaleX(0);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .nav-link:hover:before,
+        .nav-link:focus:before {
+            transform: scaleX(1);
+        }
+
+        .navbar-nav .nav-link.active {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .welcome-link {
+            margin-left: -20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .welcome-link .initial {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #343a40;
+            color: #f8f9fa;
+            text-align: center;
+            font-weight: bold;
+            margin-right: 5px;
+            line-height: 30px;
+        }
+
+        .logout-link {
+            margin-left: -20px;
+        }
+
+        .container.body-content {
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        footer {
+            margin-top: 20px;
+            padding: 10px 0;
+            text-align: center;
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" runat="server">
+                    <asp:Image runat="server" ImageUrl="~/ImageFile/scclogo1.png" AlternateText="Logo" class="d-inline-block align-text-top"/>
+                    SCC Fleet Services
+                </a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Default.aspx">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" runat="server" href="UserScreen/User Screen.aspx">User Screen</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-end" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="toggleDropdown()">
+                                Admin
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-white" aria-labelledby="navbarDropdown" id="adminDropdown">
+                                <a class="dropdown-item" runat="server" href="~/AdminDashboard/AddUser.aspx">Add User</a>
+                                <a class="dropdown-item" runat="server" href="~/AdminDashboard/AddVehicle.aspx">Add Vehicle</a>
+                                <a class="dropdown-item" runat="server" href="~/AdminDashboard/InspectionT.aspx">Add Inspection</a>
+                                <a class="dropdown-item" runat="server" href="~/AdminDashboard/TripT.aspx">Add Trip</a>
+                                <a class="dropdown-item dropdown-toggle" href="#" id="reportsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             Reports
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-white pink-dropdown" aria-labelledby="reportsDropdown">
+                                <a class="dropdown-item" runat="server" href="~/AdminDashboard/Report.aspx">Trip Report</a>
+                                <a class="dropdown-item" runat="server" href="~/AdminDashboard/InspectionReport.aspx">Inspection Report</a>
+                                </div>
+                            </div>
+                            
+                           <li class="nav-item">
+                            <a class="nav-link" runat="server" href="~/About.aspx">About</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item welcome-link">
+                            <a class="nav-link">Welcome, <%= Session["FirstNameInitial"] %></a>
+                            <span class="initial"><%= Session["LastName"] %></span>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item logout-link">                        
+                            <asp:Button ID="btnLogout" runat="server" CssClass="button" CausesValidation="False" Text="Logout" OnClick="btnLogout_Click" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+            <hr />
+            <footer>
+                <p>&copy; <%=DateTime.Now.Year %> <a href = "https://www.sccsc.edu/" target ="_blank" rel="noopener noreferrer">SCC Fleet Service</a></p>
+
+            </footer>
+        </div>
+    </form>
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("adminDropdown");
+            dropdown.classList.toggle("show");
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            var lastName = '<%= Session["LastName"] %>';
+            if (lastName) {
+                $('.welcome-link .nav-link').text(' Welcome, ' + lastName);
+            }
+            
+            var firstNameInitial = '<%= Session["firstNameInitial"] %>';
+            if (firstNameInitial) {
+                $('.welcome-link .initial').text(firstNameInitial);
+            }
+        });
+    </script>
+   
+</body>
+</html>
